@@ -1,0 +1,132 @@
+<!-- Unified Header/Navigation - Identical across all pages -->
+<nav class="ultra-nav">
+    <div class="nav-container">
+        <div class="nav-brand">
+            <div class="brand-logo">
+                <img src="http://freesightai.org/img/civic-lens.png" alt="Civic Lens Logo" class="logo-image">
+            </div>
+        </div>
+        
+        <div class="nav-menu" id="navMenu">
+            <a href="/" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="{{ url_for('civic_chatbot') }}" class="nav-link">
+                <i class="fas fa-robot"></i>
+                <span>Civic Chatbot</span>
+            </a>
+            <a href="{{ url_for('unified_news') }}" class="nav-link">
+                <i class="fas fa-newspaper"></i>
+                <span>Latest News</span>
+            </a>
+            <a href="{{ url_for('near_me_page') }}" class="nav-link">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Near Me</span>
+            </a>
+            <a href="/report" class="nav-link">
+                <i class="fas fa-flag"></i>
+                <span>Report</span>
+            </a>
+            <a href="/dashboard" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+        </div>
+        
+        <div class="nav-actions">
+            <button class="nav-btn demo-btn" onclick="startDemo();">
+                <i class="fas fa-play"></i>
+                <span>Live Demo</span>
+            </button>
+            <button class="nav-btn cta-btn" onclick="window.location.href='{{ url_for('civic_chatbot') }}'">
+                <i class="fas fa-rocket"></i>
+                <span>Get Started</span>
+            </button>
+        </div>
+        
+        <div class="nav-toggle" id="navToggle">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+    </div>
+</nav>
+
+<!-- Enhanced Navigation Script -->
+<script src="{{ url_for('static', filename='enhanced-navigation.js') }}"></script>
+
+<!-- Background Animation (for pages that need it) -->
+<div class="background-animation">
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+        <div class="shape shape-6"></div>
+    </div>
+    <div class="gradient-overlay"></div>
+</div>
+
+<!-- Mobile Navigation JavaScript -->
+<script>
+// Enhanced Mobile Navigation Toggle
+function initializeNavigation() {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function() {
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('mobile-active');
+            
+            // Prevent body scroll when menu is open
+            if (navMenu.classList.contains('mobile-active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('mobile-active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('mobile-active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+    
+    // Highlight active page
+    const currentPath = window.location.pathname;
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// Demo function
+function startDemo() {
+    alert('Live Demo: This would start an interactive tour of the platform features!');
+}
+
+// Initialize navigation when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeNavigation);
+} else {
+    initializeNavigation();
+}
+</script>
